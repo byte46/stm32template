@@ -1,0 +1,17 @@
+*.a
+*.elf
+*.hex
+*.o
+*.zip
+*.bin
+_htmresc
+*.chm
+*.pdf
+*.info_code
+*.info_size
+*.info_symbol
+*.info_elf
+index.html
+Release_Notes.html
+Documentation
+SVD
