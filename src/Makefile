@@ -4,6 +4,7 @@ include ../Makefile.common
 
 OBJS+=startup.o
 OBJS+=main.o
+OBJS+=syscalls.o
 
 all: src
 

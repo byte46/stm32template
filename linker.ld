@@ -111,6 +111,7 @@ _ebss = . ; /* exported for the startup function */
 _end = .;
 __end = .;
 } >RAM AT>FLASH
+PROVIDE(__HEAP_START = _end );
 /* ensure there is enough room for the user stack */
 ._usrstack (NOLOAD): {
 . = ALIGN(4);
