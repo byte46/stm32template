@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <string.h>
 
-char msg[] = "USART init\r\n            ";
+char msg[30] = "USART init\r\n";
 
 void USARTSendDMA(const char *pucBuffer)
 {
@@ -65,7 +65,7 @@ void init_DMA_uart(int bufSize)
 
 int main(int argc, char *argv[])
 {
-    //char buf[30] = "";
+    char buf[30] = "";
     GPIO_InitTypeDef GPIO_InitStructure;
     //char *mp = msg;
     volatile u32 delay;
@@ -81,7 +81,7 @@ int main(int argc, char *argv[])
     init_DMA_uart(12);
 
     USARTSendDMA("BeforeWhile");
-    //snprintf(buf, 30, "Test %d", 10);
+    snprintf(buf, 30, "Test %d", 10);
     while(1)
     {
         /*
