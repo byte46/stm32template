@@ -67,9 +67,8 @@ int main(int argc, char *argv[])
 {
     char buf[30] = "";
     GPIO_InitTypeDef GPIO_InitStructure;
-    //char *mp = msg;
     volatile u32 delay;
-    //volatile u32 counter = 0;
+    volatile u32 counter = 0;
     /* GPIOC Periph clock enable */
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC | RCC_APB2Periph_GPIOA | RCC_APB2Periph_USART1, ENABLE);
     /* Configure PC12 to mode: slow rise-time, pushpull output */
@@ -80,8 +79,6 @@ int main(int argc, char *argv[])
     GPIOC->BSRR = GPIO_BSRR_BS13;
     init_DMA_uart(12);
 
-    USARTSendDMA("BeforeWhile");
-    snprintf(buf, 30, "Test %d", 10);
     while(1)
     {
         /*
@@ -97,7 +94,8 @@ int main(int argc, char *argv[])
         delay=1000000;
         while(delay)
             delay--;
-        USARTSendDMA("Data here");
+        snprintf(buf, 30, "Counter is: %ld", counter++);
+        USARTSendDMA(buf);
     }
 }
 
