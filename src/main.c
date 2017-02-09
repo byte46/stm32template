@@ -10,7 +10,7 @@ char msg[30] = "USART init\r\n";
 
 void USARTSendDMA(const char *pucBuffer)
 {
-    GPIOC->BSRR = GPIO_BSRR_BR13;
+    GPIOC->BSRR = GPIO_BSRR_BR13; // LED on
     strcpy(msg, pucBuffer);
     DMA1_Channel4->CNDTR = strlen(pucBuffer);
     DMA_Cmd(DMA1_Channel4, ENABLE);
@@ -69,13 +69,14 @@ int main(int argc, char *argv[])
     GPIO_InitTypeDef GPIO_InitStructure;
     volatile u32 delay;
     volatile u32 counter = 0;
+
     /* GPIOC Periph clock enable */
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC | RCC_APB2Periph_GPIOA | RCC_APB2Periph_USART1, ENABLE);
-    /* Configure PC12 to mode: slow rise-time, pushpull output */
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_13; // GPIO No. 12
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz; // slow rise time
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; // push-pull output
-    GPIO_Init(GPIOC, &GPIO_InitStructure); // GPIOC init
+
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_13;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+    GPIO_Init(GPIOC, &GPIO_InitStructure);
     GPIOC->BSRR = GPIO_BSRR_BS13;
     init_DMA_uart(12);
 
@@ -103,5 +104,5 @@ void DMA1_Channel4_IRQHandler(void)
 {
 	DMA_ClearITPendingBit(DMA1_IT_TC4);
 	DMA_Cmd(DMA1_Channel4, DISABLE);
-    GPIOC->BSRR = GPIO_BSRR_BS13;
+    GPIOC->BSRR = GPIO_BSRR_BS13; // LED off
 }
