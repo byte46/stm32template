@@ -1,6 +1,9 @@
 #include "stm32f10x.h"
+
 typedef void( *const intfunc )( void );
+
 #define WEAK __attribute__ ((weak))
+
 /* provided by the linker script */
 //extern unsigned long _etext; /* start address of the static initialization data */
 extern unsigned long _sidata; /* start address of the static initialization data */
@@ -226,6 +229,7 @@ void (* const g_pfnVectors[])(void) = {
  (intfunc)0xF1E0F85F
 /* @0x1E0. This is for boot in RAM mode for STM32F10x High Density devices. */
 };
+
 void __Init_Data(void) {
 	unsigned long *src, *dst;
 	/* copy the data segment into ram */
@@ -239,14 +243,16 @@ void __Init_Data(void) {
 	while(dst < &_ebss)
 		*(dst++) = 0;
 }
+
 void Reset_Handler(void) {
-	__Init_Data(); /* Initialize memory, data and bss */
-	extern u32 _isr_vectors_offs; /* the offset to the vector table in ram */
-	SCB->VTOR = 0x08000000 | ((u32)&_isr_vectors_offs & (u32)0x1FFFFF80); /* set interrupt vector table address */
+	__Init_Data(); // Memory, data, .bss init
+	extern u32 _isr_vectors_offs; // vector table offset (RAM)
+	SCB->VTOR = 0x08000000 | ((u32)&_isr_vectors_offs & (u32)0x1FFFFF80); // set interrupt vector table address
 	SystemInit(); /* configure the clock */
 	main(); /* start execution of the program */
 	while(1) {}
 }
+
 #pragma weak MMI_Handler	= Default_Handler
 #pragma weak MemManage_Handler	= Default_Handler
 #pragma weak BusFault_Handler	= Default_Handler
@@ -319,5 +325,5 @@ void Reset_Handler(void) {
 
 void Default_Handler(void)
 {
-while (1) {}
+    while (1) {}
 }
