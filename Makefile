@@ -42,6 +42,7 @@ flash:
 	@echo "######################################################################################################"
 	@echo "################# killing all of st-util instances, flashing firmware..."
 	@echo "######################################################################################################"
+	@killall st-util||:
 	st-flash --reset write $(PROGRAM).bin 0x8000000 
 debug:
-	arm-none-eabi-gdb --tui --eval-command="tar extended-remote :4242" --eval-command="load" --eval-command="layout split" ${PROGRAM}.elf
+	@{ st-util > /dev/null 2>&1 & PID=$$!; arm-none-eabi-gdb --tui -x gdb-commands ${PROGRAM}.elf; kill $$PID; } ||:
