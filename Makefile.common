@@ -40,6 +40,7 @@ LD=$(TC)-ld -v
 OBJCOPY=$(TC)-objcopy
 AR=$(TC)-ar
 GDB=$(TC)-gdb
+AS=$(TC)-as
 
 INCLUDE=-I$(TOP)/inc
 INCLUDE+=-I$(STMLIB)/CMSIS/Include
