@@ -4,6 +4,9 @@
 *.o
 *.zip
 *.bin
+*.log
+*.idb
+*~
 _htmresc
 *.chm
 *.pdf

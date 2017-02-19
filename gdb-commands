@@ -1,3 +1,11 @@
 tar extended-remote :4242
 load
 layout split
+focus cmd
+break main
+break TIM2_IRQHandler
+display/2t *0x40000010
+display/x *(($r0)+16)
+display/x ($r1)
+break *0x8001efc
+break *0x8001f02

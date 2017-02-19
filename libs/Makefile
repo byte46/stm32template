@@ -1,7 +1,7 @@
 # libs Makefile
 include ../Makefile.common
 LIBS+=libstm32.a
-CFLAGSlib+=-c
+CFLAGSlib+=-c -ffunction-sections -fdata-sections
 all: libs
 libs: $(LIBS)
 libstm32.a:
@@ -23,7 +23,7 @@ libstm32.a:
 #			-I../../CMSIS/Device/ST/STM32F10x/Include \
 #			-I../inc \
 #			*.c
-	@$(AR) cr $(LIBDIR)/$@ \
+	@$(AR) crs $(LIBDIR)/$@ \
 		$(STMLIB)/CMSIS/Device/ST/STM32F10x/Source/Templates/system_stm32f10x.o \
 		$(STMLIB)/STM32F10x_StdPeriph_Driver/src/*.o \
 #		$(STMLIB)/STM32_USB-FS-Device_Driver/src/*.o
