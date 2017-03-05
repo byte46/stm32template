@@ -22,7 +22,7 @@ int main()
 
     TIM_TimeBaseStructInit(&timer);
     timer.TIM_Prescaler = 7200-1;
-    timer.TIM_Period = 6000;
+    timer.TIM_Period = 10000;
     TIM_ITConfig(TIM2, TIM_IT_Update, ENABLE);
     TIM_TimeBaseInit(TIM2, &timer);
     TIM_Cmd(TIM2, ENABLE);
@@ -34,14 +34,14 @@ int main()
 
 void TIM2_IRQHandler()
 {
+    TIM_ClearITPendingBit(TIM2, TIM_IT_Update); // В таком виде — работает…
     if (previousState == 0)
     {
 	previousState = 1;
 	GPIO_SetBits(GPIOC, GPIO_Pin_13);
 	//timer.TIM_Period = 100;
 	//TIM_TimeBaseInit(TIM2, &timer);
-	//TIM_ClearITPendingBit(TIM2, TIM_IT_Update); // НЕ ИСПОЛЬЗОВАТЬ ЭТО УБОЖЕСТВО!!!
-    TIM2->SR = ~(TIM_SR_UIF);
+    //TIM2->SR = ~(TIM_SR_UIF);
     }
     else
     {
@@ -49,7 +49,6 @@ void TIM2_IRQHandler()
 	GPIO_ResetBits(GPIOC, GPIO_Pin_13);
 	//timer.TIM_Period = 100;
 	//TIM_TimeBaseInit(TIM2, &timer);
-	//TIM_ClearITPendingBit(TIM2, TIM_IT_Update); // НЕ ИСПОЛЬЗОВАТЬ ЭТО УБОЖЕСТВО!!!
-    TIM2->SR = ~(TIM_SR_UIF);
+    //TIM2->SR = ~(TIM_SR_UIF);
     }
 }
