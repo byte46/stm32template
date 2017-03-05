@@ -2,7 +2,14 @@
 
 include Makefile.common
 
-LDFLAGS=$(COMMONFLAGS) -fno-exceptions -ffunction-sections -fdata-sections -L$(LIBDIR) -nostartfiles -Wl,--gc-sections,-Tlinker.ld
+LDFLAGS=$(COMMONFLAGS)
+LDFLAGS+= -fno-exceptions
+LDFLAGS+= -ffunction-sections
+LDFLAGS+= -fdata-sections
+LDFLAGS+= -L$(LIBDIR)
+LDFLAGS+= -nostartfiles
+LDFLAGS+= -Wl,--gc-sections,-Tlinker.ld
+
 
 LDLIBS+=-lm
 
@@ -43,6 +50,6 @@ flash:
 	@echo "################# killing all of st-util instances, flashing firmware..."
 	@echo "######################################################################################################"
 	@killall st-util||:
-	st-flash --reset write $(PROGRAM).bin 0x8000000 
+	st-flash --reset write $(PROGRAM).bin 0x8000000
 debug:
 	@{ st-util > /dev/null 2>&1 & PID=$$!; arm-none-eabi-gdb --tui -x gdb-commands ${PROGRAM}.elf; kill $$PID; } ||:
